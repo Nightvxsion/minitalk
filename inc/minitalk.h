@@ -6,7 +6,7 @@
 /*   By: marcgar2 <marcgar2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:56:05 by marcgar2          #+#    #+#             */
-/*   Updated: 2025/05/13 17:03:13 by marcgar2         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:07:12 by marcgar2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,12 @@ int		ft_atoi(const char *str);
 void	ft_putstr(char *str);
 void	ft_putnbr(int num);
 
+//SERVER
+t_mt	*server_init(void);
+void	server_receive(int boolean);
+void	server_loop(t_mt *talk);
 
+//CLIENT
+t_mt	*client_init(void);
+void	client_send(t_mt *talk, char *msg);
 #endif
