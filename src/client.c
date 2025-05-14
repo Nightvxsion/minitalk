@@ -6,7 +6,7 @@
 /*   By: marcgar2 <marcgar2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:01:17 by marcgar2          #+#    #+#             */
-/*   Updated: 2025/05/13 19:04:52 by marcgar2         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:03:29 by marcgar2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	client_send(t_mt *talk, char *msg)
 	while (i <= len)
 	{
 		bit_move = -1;
-		while (++bit_move < 7)
+		while (++bit_move < 8)
 		{
 			if ((msg[i] >> bit_move) & 1)
 				signal = SIGUSR2;
 			else
 				signal = SIGUSR1;
 			kill(talk->pid_serv, signal);
-			usleep(5);
+			usleep(5000);
 		}
 		i++;
 	}

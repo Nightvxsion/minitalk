@@ -6,7 +6,7 @@
 /*   By: marcgar2 <marcgar2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:29:37 by marcgar2          #+#    #+#             */
-/*   Updated: 2025/05/13 19:20:36 by marcgar2         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:03:26 by marcgar2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	server_receive(int signal)
 	talk = server_init();
 	if (signal == SIGINT)
 	{
-		write(1, "SERVER IS CLOSING\n", 19);
+		write(1, "\e[1;31m\nSERVER IS CLOSING\n\e[0m", 19);
 		free(talk);
 		exit(EXIT_SUCCESS);
 	}
 	if (signal == SIGUSR2)
 		msg |= (1 << bit_move);
 	msg += ((signal & 1) << bit_move++);
-	if (bit_move == 7)
+	if (bit_move == 8)
 	{
 		write(1, &msg, 1);
 		if (!msg)
@@ -53,24 +53,20 @@ void	server_receive(int signal)
 		bit_move = 0;
 		msg = 0;
 	}
-	return ;
 }
 
 void	server_loop(t_mt *talk)
 {
-	while (1)
+	if ((signal(SIGUSR1, server_receive) == SIG_ERR)
+		|| (signal(SIGUSR2, server_receive) == SIG_ERR)
+		|| (signal(SIGINT, server_receive) == SIG_ERR))
 	{
-		if ((signal(SIGUSR1, server_receive) == SIG_ERR)
-			|| (signal(SIGUSR2, server_receive) == SIG_ERR)
-			|| (signal(SIGINT, server_receive) == SIG_ERR))
-		{
-			ft_putstr("FATAL -> Signal failed!\n");
-			free(talk);
-			exit(EXIT_FAILURE);
-		}
-		sleep(2);
+		ft_putstr("FATAL -> Signal failed!\n");
+		free(talk);
+		exit(EXIT_FAILURE);
 	}
-	return ;
+	while (1)
+		pause();
 }
 
 int	main(int ac, char **av)
